@@ -1,0 +1,40 @@
+<!--显示个人信息页面-->
+<!-- 顶部栏 -->
+<% include b_header.ejs %>
+<!-- 顶部栏--end -->
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="getAllUser">
+                <h1><%=username%>的基本信息</h1>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include b_footer %>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var getAllUser = $('#getAllUser');
+        getPage(0);
+        //AJAX读取用户信息
+        function getPage(page) {
+            $.post("/getUser1?page="+page,function (result) {
+                console.log(result);
+
+                var ajaxText = result.allResult;
+                for(var i = 0; i < ajaxText.length; i++){
+                    var html = "<p>"+ "用户名：" + ajaxText[i].username + "</p><p>";
+                    html+= "毕业院校：" +  ajaxText[i].age + "</p><p>";
+                    html+= "性别：" +  ajaxText[i].sex + "</p><p>";
+                    html+= "爱好：" + ajaxText[i].hover + "</p>";
+                    html+= "擅长领域：" + ajaxText[i].good + "</p>";
+                    html+= "<p><a href='/account' class='btn btn-danger del'>修改个人信息</a></p>";
+                    $('#getAllUser').append(html);
+                }
+
+            });
+        }
+    });
+</script>

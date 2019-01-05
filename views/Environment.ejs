@@ -1,0 +1,56 @@
+<%- include headerm %>
+<div class="col-md-10">
+    <div class="news">
+        <div class="news-sec">
+            <div class="news-top" id="getAllArticle">
+
+            </div>
+            <div class="col-sm-12">
+                <nav>
+                    <ul class="pagination">
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+</div>
+</div>
+<div class="clearfix"></div>
+<!---->
+<script type="text/template" id="allArticle">
+    <div class="col-md-10 col-lg-10 news-1">
+        <a href="/article?ID={{= ID }}"><h5>{{= topic }}</h5></a>
+        <h6>{{= date }}</h6>
+        <div class="post-body">
+            <p> {{= content.substring(0,200).replace(/<[^>]+>/g,"") }} </p>
+        </div>
+        <div class="news-footer">
+            <h6 class="post-footer">
+                分类：{{= classify }} <!--| 评论：未开放--> | 浏览：{{= visitNum }} | 点赞：{{= thumbsUp }} |
+                <a href="/article?ID={{= ID }}">阅读全文 ></a>
+            </h6>
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript">
+    var getAllArticle = $('#getAllArticle');
+    //得到模板
+    var compiled = _.template($("#allArticle").html());
+    getPage(0);
+    //AJAX读取文章列表
+    function getPage(page) {
+        $.post("/getEnvironment?page="+page,function (result) {
+            for(var i = 0; i<result.allResult.length; i++){
+                var htmlstring = compiled(result.allResult[i]);
+                getAllArticle.append(htmlstring);
+            }
+        });
+    }
+
+</script>
+
+<%- include footer %>

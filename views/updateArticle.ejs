@@ -1,0 +1,94 @@
+<%- include b_header %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12"><h3 class="m-t-none m-b">写博客</h3>
+                            <form role="form" class="form-horizontal pull-left">
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-offset-1 control-label">文章标题：</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" value="<%= allResult.topic %>" class="form-control" id="topic" name="topic">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-offset-1 control-label">发布者：</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" value="<%= allResult.publisher %>" disabled class="form-control" id="publisher" name="publisher">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-offset-1 control-label">博客类别：</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control m-b" id="newClassify" name="newClassify">
+                                            <option value="KF">JavaScript</option>
+                                            <option value="QP">NodeJS</option>
+                                            <option value="CY">Environment</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-offset-1 control-label">博客内容：</label>
+                                    <div class="col-sm-6">
+                                        <textarea id="editor" name="editor" type="text/plain" style="width:800px;height:500px;">
+                                            <%= allResult.content %>
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input class="col-sm-offset-5 col-sm-1 btn btn-primary" id="updateBtn" type="button" value="确认修改">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- Ueditor开始 -->
+<script type="text/javascript" charset="utf-8" src="libs/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="libs/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="libs/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    var ue = UE.getEditor('editor');
+
+    function getContent() {
+        var arr = UE.getEditor('editor').getContent();
+        alert(arr);
+        console.log(typeof arr);
+    }
+
+    //修改文章事件，用ajax提交表单
+    $("#updateBtn").click(function(){
+        var Content = UE.getEditor('editor').getContent();
+        var Classify= $('#newClassify').find("option:selected").text();
+        var topic = $('#topic').val();
+        $.post("/doUpdateArticle",{
+            "newClassify" : Classify,
+            "newContent" : Content,
+            "topic": topic
+        },function(result){
+            if(result == 1){
+                alert("修改文章成功！将跳转页面");
+                window.location = "/manage";
+            }else if(result == -1){
+                alert("服务器错误！请检查服务器");
+            }else{
+                alert("未知原因，修改文章失败！");
+            }
+        });
+    });
+</script>
+<%- include b_footer %>

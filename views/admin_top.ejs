@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>博客后台管理</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style2.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/jquery.Jcrop.css">
+    <link href="css/sweetalert.css" rel="stylesheet">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.metisMenu.js"></script>
+    <script src="js/jquery.slimscroll.min.js"></script>
+    <script src="js/inspinia.js"></script>
+    <script src="js/pace.min.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+
+</head>
+
+<body>
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        <span><a href="/setAvatar">
+                                <img alt="image" class="img-circle" src="images/<%=avatar%>" width="55px" height="55px" />
+                            </a></span>
+                    </div>
+                    <div class="logo-element">
+                        Blog
+                    </div>
+                </li>
+
+                <li class="active">
+                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息管理</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="/usermanage">用户信息</a></li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">文章管理</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="/papermanage">文章审核</a></li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">留言信息管理</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="/accountmanage">审核留言</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message">欢迎<%=username%>来到博客后台</span>
+                    </li>
+                    <li>
+                        <a href="/modifypassword">
+                            <i class="fa fa-sign-out"></i> 修改密码
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/doLogOff">
+                            <i class="fa fa-sign-out"></i> 退出登录
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>

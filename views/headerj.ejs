@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>基于NodeJS的博客系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+    <link href="css/login.css" rel='stylesheet' type='text/css' />
+    <link href="css/common.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" type="text/css" href="/css/jquery.Jcrop.css">
+    <link href="css/style.css" rel='stylesheet' type='text/css' />
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <!--<script src="js/jquery.zlight.menu.1.0.min.js"></script>-->
+    <script src="js/underscore-noflect.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=33823c697fdbbaafbf5a19a1c7c8f488"></script>
+</head>
+<body>
+<div class="header">
+    <div class="header_nav">
+        <div class="container">
+            <div class="row">
+                <div class="row hidden-sm hidden-xs">
+                    <div class="col-md-10 col-lg-10 col-sm-8">
+                        <div class="m_top_logo">
+                            <span>BLOG</span>
+                        </div>
+                        <ul class="menu list-inline pull-left hidden-xs">
+                            <li class="menu_item"><a href="/">首页</a></li>
+                            <li class="menu_item"><a href="/NodeJS" class="">NodeJS</a></li>
+                            <li class="menu_item active-nav"><a href="/JavaScript" class="">JavaScript</a></li>
+                            <li class="menu_item"><a href="/Environment" class="">MongoDB</a></li>
+                            <li class="menu_item"><a href="/comment" class="">联系我们</a></li>
+                        </ul>
+                        <form action="/search" method="GET" class="header-search  hidden-sm hidden-xs pull-right">
+                            <button class="btn btn-link">
+                                <span class="sr-only">搜索</span><span class="glyphicon glyphicon-search"></span>
+                            </button>
+                            <input id="searchBox" name="keyword" type="text" placeholder="搜索问题或关键字" class="form-control" value="">
+                        </form>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-sm-4 text-align">
+                        <ul class="opts list-inline hidden-xs pull-right" style="text-align: center;">
+                            <li class="opts_item">
+                                <a href="/login" class="SFRegister btn-signin" style="margin-bottom:2px;">立即登录</a>
+                                <a href="/regist" class="SFLogin ml10 btn-signup">免费注册</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-7">
+                    <div class="title">欢迎来到博客交流平台</div>
+                </div>
+                <div class="col-lg-3 col-lg-offset-3 col-md-4 col-md-offset-1">
+                    <form class="register-form clearfix">
+                        <a href="/regist" class="SFLogin btn btn-lg btn-primary mr15">免费注册</a>
+                        <a href="/login" class="SFRegister btn btn-lg btn-primary">立即登录</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- con_left -->
+<div class="main_con">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 part_left">
+                <div class="top-navigation">
+                    <div class="t-menu">菜单</div>
+                    <div class="t-img">
+                        <img src="images/lines.png" alt="" />
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="drop-navigation">
+                    <div class="top-menu">
+                        <ul>
+                            <li><a class="menu_active">博客分类</a></li>
+                            <li><a href="/NodeJS">NodeJS</a></li>
+                            <li class="menu_active"><a href="/JavaScript">JavaScript</a></li>
+                            <li><a href="/Environment">MongoDB</a></li>
+                        </ul>
+                    </div>
+                    <script>
+                        $( ".top-navigation" ).click(function() {
+                            $( ".drop-navigation" ).slideToggle( 300, function() {
+                                // Animation complete.
+                            });
+                        });
+                    </script>
+                </div>
+            </div>

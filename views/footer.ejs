@@ -1,0 +1,31 @@
+<!--底部（公共部分）-->
+<div class="footer_bottom">
+    <div><a href="#">关于我们</a>
+        <a href="/comment">联系我们</a>
+        <a href="#" target="_blank">ICP备XXXXXXXX号</a>
+    </div>
+    <div>
+        <span>@2018-2019保留所有权利</span>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        <!--限制字符个数-->
+        $(".con_text").each(function(){
+            var maxwidth=205;
+            if($(this).text().length>maxwidth){
+                $(this).text($(this).text().substring(0,maxwidth));
+                $(this).html($(this).html()+'...');
+            }
+        });
+    })
+</script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<!--<script src="js/jquery.zlight.menu.1.0.min.js"></script>-->
+</body>
+</html>

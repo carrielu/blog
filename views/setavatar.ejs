@@ -1,0 +1,16 @@
+<% include b_header.ejs %>
+
+<div class="container setavatar">
+    <div class="row">
+        <h1>更换头像</h1>
+        <form action="/doSetAvatar" method="post"  enctype="multipart/form-data" >
+            <div class="form-group">
+                <label for="username">修改系统默认头像</label>
+                <input type="file" class="form-control" id="uploadAvator" name="uploadAvator">
+            </div>
+            <button type="submit" id="uploadAvatorBtn" class="btn btn-default" >上传</button>
+        </form>
+    </div>
+</div>
+
+<% include b_footer.ejs %>

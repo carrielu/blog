@@ -1,0 +1,27 @@
+
+<div class="col-md-2 col-lg-2 col-sm-2 col-xs-2 part_left">
+    <div class="top-navigation">
+        <div class="t-menu">菜单</div>
+        <div class="t-img">
+            <img src="images/lines.png" alt="" />
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="drop-navigation">
+        <div class="top-menu">
+            <ul>
+                <li><a class="menu_active">博客分类</a></li>
+                <li><a href="/NodeJS">NodeJS</a></li>
+                <li><a href="/JavaScript">JavaScript</a></li>
+                <li><a href="/Environment">MongoDB</a></li>
+            </ul>
+        </div>
+        <script>
+            $( ".top-navigation" ).click(function() {
+                $( ".drop-navigation" ).slideToggle( 300, function() {
+                    // Animation complete.
+                });
+            });
+        </script>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<% include header_article %>
+<div class="search_result">
+    <%for (var i=0;i<allResult.length;i++){%>
+    <div class="col-md-8 col-lg-offset-2 col-md-offset-2 col-lg-8 col-xs-8 news-top" style="margin: 22px 0;">
+        <div class="title_date">
+            <a class="pull-left" href="/article?ID=<%=allResult[i].ID%>"><h4 style="color:#000;"><%=allResult[i].topic%></h4></a>
+            <h5 class="pull-right"><%=allResult[i].date%></h5>
+        </div>
+        <div class="news-footer">
+            <h6 class="post-footer">
+                分类：<%=allResult[i].classify%> <!--| 评论：未开放--> | 浏览：<%=allResult[i].visitNum%> | 点赞：<%=allResult[i].thumbsUp%> |
+                <a href="/article?ID=<%=allResult[i].ID%>">阅读全文 ></a>
+            </h6>
+        </div>
+    </div>
+    <%}%>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        <!--限制字符个数-->
+        $(".con_text").each(function(){
+            var maxwidth=205;
+            if($(this).text().length>maxwidth){
+                $(this).text($(this).text().substring(0,maxwidth));
+                $(this).html($(this).html()+'...');
+            }
+        });
+
+        var divNode = document.getElementById('con_text');
+        divNode.replace(/<[^>]+>/g,"");
+
+    })
+</script>
+<%- include footer %>

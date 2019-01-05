@@ -1,0 +1,57 @@
+<% include b_header %>
+
+<div class="container container_padding_top">
+    <h1><%=username%>的基本信息</h1>
+    <form role="form">
+        <div class="form-group">
+            <label for="exampleInputPassword1">年龄：</label>
+            <input type="text" class="form-control" id="age"  placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">性别：</label>
+            男：<input type="radio" checked="checked" name="sex" value="男">&nbsp;&nbsp;&nbsp;
+            女:<input type="radio" name="sex" value="女">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">爱好：</label>
+            跑步：<input type="checkbox" name="hover" value="跑步">&nbsp;&nbsp;&nbsp;
+            打牌：<input type="checkbox" name="hover" value="打牌">&nbsp;&nbsp;&nbsp;
+            睡觉：<input type="checkbox" name="hover" value="睡觉">&nbsp;&nbsp;&nbsp;
+            抽烟：<input type="checkbox" name="hover" value="抽烟">
+        </div>
+        <button type="button" id="modifyBtn" class="btn btn-default">确认</button>
+    </form>
+    <div class="alert alert-danger errorTip" role="alert" id="errorTip"></div>
+    <div id="getAllArticle">
+    </div>
+</div>
+
+<% include b_footer %>
+
+<script type="text/javascript">
+    //添加个人信息按钮事件，用ajax提交表单
+    $(document).ready(function () {
+        $("#submit").click(function () {
+            var content = UE.getEditor('editor').getContent();
+            var classify= $('#classify').find("option:selected").text();
+            $.post("/doEdit", {
+                "topic" : $("#topic").val(),
+                "publisher" : $("#publisher").val(),
+                "classify" : classify,
+                "content" : content
+            }, function (result) {
+                if(result == 1){
+                    alert("添加信息成功！将刷新该页面");
+                    window.location = "/recording";
+                }else if(result == -1){
+                    alert("服务器错误！请检查服务器");
+                }else{
+                    alert("未知原因，添加文章失败！");
+                }
+            });
+        });
+    });
+    });
+
+
+</script>

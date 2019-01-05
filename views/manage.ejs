@@ -1,0 +1,105 @@
+<%- include b_header %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <a href="/recording" class="btn btn-info">写博客</a>
+                </div>
+                <div class="ibox-content">
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>博客ID</th>
+                            <th>分类</th>
+                            <th>博客标题</th>
+                            <th>发布者</th>
+                            <th>发布时间</th>
+                            <th>游览数</th>
+                            <th>点赞数</th>
+                            <th>操作1</th>
+                            <th>操作2</th>
+                        </tr>
+                        </thead>
+                        <tbody id="getAllArticle">
+
+                        </tbody>
+                    </table>
+                    <nav>
+                        <ul class="pagination">
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include b_footer %>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var getAllArticle = $('#getAllArticle');
+        getPage(0);
+        //AJAX读取文章列表
+        function getPage(page) {
+            $.post("/getArticle1?page="+page,function (result) {
+                var ajaxText = result.allResult;
+                for(var i = 0; i < ajaxText.length; i++){
+                    var html = "<tr><td>"+ajaxText[i].ID+"</td><td>"+ ajaxText[i].classify + "</td><td>";
+                    html+= ajaxText[i].topic + "</td><td>" + ajaxText[i].publisher + "</td><td>";
+                    html+= ajaxText[i].date + "</td><td>"+ajaxText[i].visitNum+"</td>";
+                    html+= "<td>"+ajaxText[i].thumbsUp+"</td><td><a href='/updateArticle?ID="+ajaxText[i].ID+"' class='btn btn-primary'>修改博客</a></td> ";
+                    html+= "<td><a data-id='"+ajaxText[i].ID+"' class='btn btn-danger del'>删除博客</a></td></tr>";
+                    $('#getAllArticle').append(html);
+                }
+                delArticle();
+            });
+        }
+        //分页
+        $.post("/getAllAmount", function (result) {
+            var amount = parseInt(result);
+            pagement = Math.ceil(amount / 10);
+            for(var i = 1; i <pagement+1;i++){
+                $(".pagination").append("<li><a href='javascript:;'>" + i +"</a></li>");
+            }
+            $(".pagination li:first").addClass("active");
+            $(".pagination li").click(function () {
+                var page = $(this).index();
+                $('#getAllArticle').html("");
+                getPage(page);
+                $(this).addClass("active").siblings().removeClass("active");
+            });
+        });
+        //删除
+        function delArticle() {
+            $(".del").click(function () {
+                var ID = $(this).data("id");
+                $.post("/delArticle",{"ID":ID}, function (result) {
+                    if(result == 1){
+                        swal({
+                            title: "你确定要删除吗?",
+                            text: "你将要删除该条博客",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定删除",
+                            closeOnConfirm: false
+                        }, function () {
+                            swal({
+                                title: "操作成功",
+                                text: "你已删除该博客.",
+                                timer: 2000
+                            },function () {
+                                window.location.reload();
+                            });
+                        });
+                    }else {
+                        console.log("删除错误");
+                    }
+                });
+            });
+        }
+    });
+</script>

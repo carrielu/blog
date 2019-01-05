@@ -1,0 +1,97 @@
+<%- include admin_top %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>用户ID</th>
+                            <th>用户名</th>
+                            <th>用户密码</th>
+                            <th>年龄</th>
+                            <th>性别</th>
+                            <th>操作1</th>
+                        </tr>
+                        </thead>
+                        <tbody id="getAllUser">
+
+                        </tbody>
+                    </table>
+                    <nav>
+                        <ul class="pagination">
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include b_footer %>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var getAllUser = $('#getAllUser');
+        getPage(0);
+        //AJAX读取文章列表
+        function getPage(page) {
+            $.post("/getUser?page="+page,function (result) {
+                console.log(result);
+                var ajaxText = result.allResult;
+                for(var i = 0; i < ajaxText.length; i++){
+                    var html = "<tr><td>"+ i +"</td><td>"+ ajaxText[i].username + "</td><td>";
+                    html+= ajaxText[i].password + "</td><td>" + ajaxText[i].age + "</td><td>";
+                    html+= ajaxText[i].sex + "</td>";
+                    html+= "<td><a data-id='"+ajaxText[i].username+"' class='btn btn-danger del'>删除用户</a></td></tr>";
+                    $('#getAllUser').append(html);
+                }
+                delUser();
+            });
+        }
+        //分页
+        $.post("/getAllCountUser", function (result) {
+            var amount = parseInt(result);
+            pagement = Math.ceil(amount / 6);
+            for(var i = 1; i <pagement+1;i++){
+                $(".pagination").append("<li><a href='javascript:;'>" + i +"</a></li>");
+            }
+            $(".pagination li:first").addClass("active");
+            $(".pagination li").click(function () {
+                var page = $(this).index();
+                $('#getAllUser').html("");
+                getPage(page);
+                $(this).addClass("active").siblings().removeClass("active");
+            });
+        });
+        function delUser() {
+            $(".del").click(function () {
+                var ID = $(this).data("id");
+                $.post("/delUser",{"ID":ID}, function (result) {
+                    if(result == 1){
+                        swal({
+                            title: "你确定要删除吗?",
+                            text: "你将要删除该用户",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定删除",
+                            closeOnConfirm: false
+                        }, function () {
+                            swal({
+                                title: "操作成功",
+                                text: "你已删除该用户.",
+                                timer: 2000
+                            },function () {
+                                window.location.reload();
+                            });
+                        });
+                    }else {
+                        console.log("删除错误");
+                    }
+                });
+            });
+        }
+    });
+</script>

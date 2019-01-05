@@ -1,0 +1,60 @@
+<!--底部（公共部分）-->
+<div class="footer">
+    <div class="footer_bg">
+        <div class="bot_nav">
+            <div class="container">
+                <div class="row">
+                    <div class="bot_con">
+                        <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                            <a href="#" class="bot_logo"></a>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12 footer_nav">
+                            <ul class="nav_list pull-right menu">
+                                <li class="list0"><a href="#" target="_blank">首页</a></li>
+                                <li class="list1"><a href="#" target="_blank">登录注册</a></li>
+                                <li class="list1"><a href="#" target="_blank">联系我们</a></li>
+                            </ul>
+                            <div class="copy_list pull-right">
+                                CopyRight @版权所有：@carrlu博客
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/js/jquery-2.1.4.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/login.js"></script>
+<script>
+    //用ajax提交表单
+    $('#login').click(function () {
+        $.post("/doLogin",{
+            "username" : $("#username").val(),
+            "password" : $("#password").val()
+
+        },function (result) {
+            if(result == "1"){
+                alert("登陆成功！跳转到首页！");
+                window.location.href = "/recording";
+            }else if(result == "-2"){
+                alert("密码错误");
+            }else if(result == "-1"){
+                alert("没有该用户");
+            }else if(result == "-3"){
+                alert("服务器错误！");
+            }else{
+                alert("未知原因，登陆失败");
+            }
+        });
+
+    });
+</script>
+<!--<script src="js/jquery.zlight.menu.1.0.min.js"></script>-->
+</body>
+</html>

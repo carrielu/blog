@@ -1,0 +1,99 @@
+<%- include b_header %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>用户ID</th>
+                            <th>用户名</th>
+                            <th>用户邮箱</th>
+                            <th>留言内容</th>
+                            <th>留言时间</th>
+                            <th>操作1</th>
+                        </tr>
+                        </thead>
+                        <tbody id="getAllComment">
+
+                        </tbody>
+                    </table>
+                    <nav>
+                        <ul class="pagination">
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include b_footer %>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var getAllComment = $('#getAllComment');
+        getPage(0);
+        //AJAX读取文章列表
+        function getPage(page) {
+            $.post("/getComment?page="+page,function (result) {
+                var ajaxText = result.allResult;
+                var count = 1;
+                for(var i = 0; i < ajaxText.length; i++){
+                    var html = "<tr><td>"+ i +"</td><td>"+ ajaxText[i].name + "</td><td>";
+                    html+= ajaxText[i].email + "</td><td>" + ajaxText[i].content + "</td><td>";
+                    html+= ajaxText[i].date + "</td>";
+                    html+= "<td><a data-id='"+ajaxText[i].name+"' class='btn btn-danger del'>删除留言</a></td></tr>";
+                    console.log("ajaxText[i].name"+ajaxText[i].name);
+                    $('#getAllComment').append(html);
+                }
+                delComment();
+            });
+        }
+        //分页
+        $.post("/getAllCountComment", function (result) {
+            var amount = parseInt(result);
+            pagement = Math.ceil(amount / 6);
+            for(var i = 1; i <pagement+1;i++){
+                $(".pagination").append("<li><a href='javascript:;'>" + i +"</a></li>");
+            }
+            $(".pagination li:first").addClass("active");
+            $(".pagination li").click(function () {
+                var page = $(this).index();
+                $('#getAllComment').html("");
+                getPage(page);
+                $(this).addClass("active").siblings().removeClass("active");
+            });
+        });
+        function delComment() {
+            $(".del").click(function () {
+                var ID = $(this).data("id");
+                $.post("/delComment",{"ID":ID}, function (result) {
+                    if(result == 1){
+                        swal({
+                            title: "你确定要删除吗?",
+                            text: "你将要删除该条留言",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定删除",
+                            closeOnConfirm: false
+                        }, function () {
+                            swal({
+                                title: "操作成功",
+                                text: "你已删除该留言.",
+                                timer: 2000
+                            },function () {
+                                window.location.reload();
+                            });
+                        });
+                    }else {
+                        console.log("删除错误");
+                    }
+                });
+            });
+        }
+    });
+</script>

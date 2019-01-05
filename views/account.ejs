@@ -1,0 +1,77 @@
+<%- include b_header %>
+<div class="container account_update">
+    <h1><%=username%>的基本信息</h1>
+    <form role="form">
+        <div class="form-group">
+            <label for="exampleInputPassword1">毕业院校：</label>
+            <input type="text" class="form-control" id="age"  placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">性别：</label>
+            男：<input type="radio" checked="checked" name="sex" value="男">&nbsp;&nbsp;&nbsp;
+            女:<input type="radio" name="sex" value="女">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">爱好：</label>
+            跑步：<input type="checkbox" name="hover" value="跑步">&nbsp;&nbsp;&nbsp;
+            旅游：<input type="checkbox" name="hover" value="旅游">&nbsp;&nbsp;&nbsp;
+            音乐：<input type="checkbox" name="hover" value="音乐">&nbsp;&nbsp;&nbsp;
+            其他：<input type="checkbox" name="hover" value="其他">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">擅长领域：</label>
+            <textarea class="form-control" id="good"  placeholder=""></textarea>
+        </div>
+        <button type="button" id="modifyBtn" class="btn btn-default">确认</button>
+        <a href="/modifyaccount" class="pull-right">
+            <button type="button"  id="quitBtn" style="padding:8px 15px;background-color: #f74b1b; color:#fff;" class="btn btn-default">取消</button>
+        </a>
+    </form>
+    <div class="alert alert-danger errorTip" role="alert" id="errorTip"></div>
+    <div id="getAllArticle">
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("input").focus(function(){
+        $("#errorTip").fadeOut();
+    });
+    //修改个人信息按钮事件，用ajax提交表单
+    $("#modifyBtn").click(function(){
+        var chk_value =[];  //初始化爱好数组
+        $('input[name="hover"]:checked').each(function(){
+            chk_value.push($(this).val());
+        });
+        $.ajax({
+            type: "post",
+            url: "/doModifyAccount",
+            traditional: true,
+            data: {
+                "age" : $("#age").val(),
+                "sex" : $("input[name='sex']:checked").val(),
+                "hover" : chk_value,
+                "good" : $("#good").val()
+            },
+            success:function(result){
+                if(result == "1"){
+                    alert("修改个人信息成功！");
+                    window.location = "/modifyaccount";
+                }else if(result == "-1"){
+                    $("#errorTip").fadeIn();
+                    $("#errorTip").html("毕业院校为空");
+                }else if(result == "-2"){
+                    $("#errorTip").fadeIn();
+                    $("#errorTip").html("性别未选中");
+                }else if(result == "-3"){
+                    $("#errorTip").fadeIn();
+                    $("#errorTip").html("爱好未选中");
+                }
+            },
+            error:function(err){
+                console.log(err);
+            }
+        });
+    });
+
+</script>
+<%- include b_footer %>

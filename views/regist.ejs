@@ -1,0 +1,58 @@
+<!-- 顶部栏 -->
+<% include top %>
+<div class="container">
+    <div class="row col-lg-offset-4 col-lg-5 col-md-offset-4 col-md-5 login_table">
+        <div class="login_tcon">
+            <h1>欢迎注册 <span><a href="/login" class="pull-right">已注册，直接登录</a></span></h1>
+            <form>
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" id="username" placeholder="用户名，可以是中文，不能和别人重复">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" id="password" placeholder="密码，至少6位">
+                </div>
+                <button type="button" id="registBtn" class="btn btn-default" >注册</button>
+            </form>
+            <div class="alert alert-danger errorTip" role="alert" id="errorTip">
+                用户名被占用，请更换
+            </div>
+            <div class="alert alert-danger errorTip" role="alert" id="errorTip" style="display: none"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 底部栏 -->
+<% include footer %>
+<!-- 底部栏--end -->
+
+<script type="text/javascript">
+    $("input").focus(function(){
+        $("#errorTip").fadeOut();
+    });
+    $("#registBtn").click(function(){
+        //注册按钮的事件，用ajax提交表单
+        $.post("/doRegist",{
+            "username" : $("#username").val(),
+            "password" : $("#password").val()
+        },function(result){
+            if(result == "1"){
+                //注册成功
+                alert("注册成功！将自动跳转到登录页面");
+                window.location = "/login";
+            }else if(result == "-1"){
+                //用户名被占用
+                $("#errorTip").fadeIn();
+                $("#errorTip").html("用户名被占用啊！");
+            }else if(result == "-3"){
+                //服务器错误
+                $("#errorTip").fadeIn();
+                $("#errorTip").html("服务器错误！");
+                window.location = "/login";
+            }
+        });
+    });
+</script>
+</body>
+</html>

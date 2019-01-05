@@ -1,0 +1,128 @@
+<% include header_article %>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <h1 class="center_h1" style="text-indent: 28px;">用户个人中心</h1>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight user_center ">
+    <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
+        <div id="getAllUser">
+            <p><%=allResult2[0].avatar%> <img src="../images/moren.jpg" alt="" width="80px" height="90px"/></p>
+            <p style="font-size: 16px;color:#009a61"><%=allResult[0].publisher%></p>
+            <p>毕业院校：<%=allResult2[0].age%>CUIT</p>
+            <p>擅长：<%=allResult2[0].good%>NodeJS</p>
+        </div>
+        <div style="margin-top:200px;">
+            <div class="repost_article" >文章统计信息</div>
+            <p>发表文章总数目：<%= allResult.length %>篇</p>
+            <p>获得点赞总数目：
+                <%=allResult[0].thumbsUp%>
+                <span class="thumbsUps"></span>
+            <p>总访问量：
+                <%=allResult[0].visitNum%>
+                <%for (var i=0;i<allResult.length;i++){%>
+                <%= allResult.visitNum %>
+                <span class="visitNums"></span>
+                <%}%></p>
+        </div>
+
+
+    </div>
+
+    <div class="col-md-10 col-lg-10 col-xs-10">
+        <div class="repost_article">已发表文章</div>
+    <%for (var i=0;i<allResult.length;i++){%>
+        <div class="col-md-12 col-lg-12 col-xs-12 news-top">
+            <a style="font-size: 16px;" href="/article?ID=<%=allResult[i].ID%>"><h4><%=allResult[i].topic%></h4></a>
+            <h6><%=allResult[i].date%></h6>
+            <div class="post-body">
+            </div>
+            <div class="news-footer">
+                <h6 class="post-footer">
+                    分类：<%=allResult[i].classify%> <!--| 评论：未开放--> | 浏览：<%=allResult[i].visitNum%> | 点赞：<%=allResult[i].thumbsUp%> |
+                    <a href="/article?ID=<%=allResult[i].ID%>">阅读全文 ></a>
+                </h6>
+            </div>
+        </div>
+        <%}%>
+
+
+        <nav><ul class="pagination"></ul></nav>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+
+<div class="clearfix"> </div>
+</div>
+</div>
+
+<script type="text/javascript">
+    <%for (var i=0;i<allResult.length;i++){%>
+    var thumbsNum = allResult[i].thumbsUp++;
+    $(".thumbsUps").append(thumbsNum);
+    <%}%>
+    console.log(thumbsNum);
+    <%for (var j=0;j<allResult.length;j++){%>
+    var visitNums = allResult[j].visitNum++;
+    $(".visitNums").append(visitNums);
+    <%}%>
+    console.log(visitNums);
+</script>
+
+<script type="text/javascript">
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+    var username = getUrlParam("username");
+    console.log(username);
+
+    $.post("/getUserInfo",{"username":username},function (result2) {
+        console.log(result2);
+    });
+    $.post("/getUserArticle",{"username":username},function (result) {
+        console.log(result);
+    });
+
+    //分页
+    $.post("/getAllAmount", function (result) {
+        var amount = parseInt(result);
+        pagement = Math.ceil(amount / 10);
+        for(var i = 1; i <pagement+1;i++){
+            $(".pagination").append("<li><a href='javascript:;'>" + i +"</a></li>");
+        }
+        $(".pagination li:first").addClass("active");
+        $(".pagination li").click(function () {
+            var page = $(this).index();
+            $('#getAllArticle').html("");
+            getPage(page);
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+    });
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var getAllUser = $('#getAllUser');
+        getPage(0);
+        //AJAX读取用户信息
+        function getPage(page) {
+            $.post("/getUserInfo?page="+page,function (result) {
+                /*console.log(result);*/
+
+                var ajaxText = result.allResult2;
+                for(var i = 0; i < ajaxText.length; i++){
+                    var html = "<p>"+ "作者：" + ajaxText[i].username + "</p><p>";
+                    html+= "毕业院校：" +  ajaxText[i].age + "</p><p>";
+                    html+= "性别：" +  ajaxText[i].sex + "</p><p>";
+                    html+= "爱好：" + ajaxText[i].hover + "</p>";
+                    html+= "擅长领域：" + ajaxText[i].good + "</p>";
+                    $('#getAllUser').append(html);
+                }
+
+            });
+        }
+    });
+</script>
+<% include footer2 %>
