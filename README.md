@@ -1,8 +1,4 @@
 ﻿
+一：mongod --dbpath data 保存数据在data文件夹。
 
-一：
-
-mongod --dbpath data 保存数据在data文件夹。
-二：
-
-node app 启动
+二：node app 启动
